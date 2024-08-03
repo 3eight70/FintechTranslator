@@ -4,12 +4,12 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.validation.Valid
-import org.springdoc.core.annotations.ParameterObject
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import ru.tinkoff.fintech.dto.TranslationRequestDto
+import ru.tinkoff.fintech.dto.translation.TranslationRequestDto
+import ru.tinkoff.fintech.dto.translation.TranslationResponseDto
 import ru.tinkoff.fintech.service.TranslationService
 
 @RestController
@@ -26,7 +26,7 @@ class TranslationController(
     fun translate(
         @ModelAttribute @Valid translationRequestDto: TranslationRequestDto,
         request: HttpServletRequest
-    ): String {
+    ): TranslationResponseDto {
         return translationService.translate(translationRequestDto, request)
     }
 }

@@ -17,7 +17,7 @@ class TranslationRequestRepository(private val jdbcTemplate: JdbcTemplate) {
      */
     @Transactional
     fun save(request: TranslationRequest){
-        val sql = "INSERT INTO t_translation_requests (ip_address, original_text, translated_text) VALUES (?, ?, ?)"
-        jdbcTemplate.update(sql, request.ipAddress, request.inputText, request.outputText)
+        val sql = "INSERT INTO t_translation_requests (id, request_time, ip_address, input_text, output_text) VALUES (?, ?, ?, ?, ?)"
+        jdbcTemplate.update(sql, request.id, request.requestTime, request.ipAddress, request.inputText, request.outputText)
     }
 }
