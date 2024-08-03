@@ -2,7 +2,7 @@ package ru.tinkoff.fintech.dto
 
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.Max
-import org.jetbrains.annotations.NotNull
+import jakarta.validation.constraints.NotNull
 
 @Schema(description = "dto для запроса на перевод текста")
 data class TranslationRequestDto (
