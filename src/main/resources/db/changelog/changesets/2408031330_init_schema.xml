@@ -1,0 +1,34 @@
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
+
+    <changeSet id="v1-1" author="Vasilev Danil">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="t_translation_requests"/>
+            </not>
+        </preConditions>
+        <comment>Запросы на перевод</comment>
+        <createTable tableName="t_translation_requests">
+            <column name="id" type="uuid" remarks="Идентификатор запроса">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="request_time" type="timestamp" remarks="Время отправки запроса">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ip_address" type="varchar(100)" remarks="IP адрес пользователя">
+                <constraints nullable="false"/>
+            </column>
+            <column name="input_text" type="varchar(1000)" remarks="Входной текст, подлежащий переводу">
+                <constraints nullable="false"/>
+            </column>
+            <column name="output_text" type="varchar(2000)" remarks="Переведенный текст со статусом запроса">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="t_translation_requests"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

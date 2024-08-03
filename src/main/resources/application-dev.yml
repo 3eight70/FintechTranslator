@@ -2,9 +2,9 @@ spring:
   application:
     name: fintech
   datasource:
-    url: ${JDBC_URL}
-    username: ${JDBC_USERNAME}
-    password: ${JDBC_PASSWORD}
+    url: ${JDBC_URL:jdbc:postgresql://localhost:5432/translator}
+    username: ${JDBC_USERNAME:postgres}
+    password: ${JDBC_PASSWORD:gbhfns}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -23,4 +23,4 @@ springdoc:
     display-request-duration: true
 
 translator:
-  url: ${API_URL}
+  url: ${API_URL:http://localhost:5000/translate}

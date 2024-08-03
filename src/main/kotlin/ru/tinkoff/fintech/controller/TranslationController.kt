@@ -1,17 +1,20 @@
 package ru.tinkoff.fintech.controller
 
 import io.swagger.v3.oas.annotations.Operation
-import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.validation.Valid
+import org.springdoc.core.annotations.ParameterObject
+import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import ru.tinkoff.fintech.dto.TranslationRequestDto
 import ru.tinkoff.fintech.service.TranslationService
 
 @RestController
 @RequestMapping("/api/v1")
-@Tag(name = "Переводчик", description = "Позволяет переводить тексты")
+@Tag(name = "Переводчик", description = "Контроллер для обработки запросов на перевод текста")
 class TranslationController(
     private val translationService: TranslationService
 ) {
@@ -21,10 +24,9 @@ class TranslationController(
         description = "Позволяет перевести заданный текст"
     )
     fun translate(
-        @RequestParam(name = "text") @Parameter(name = "Текст, подлежащий переводу") text: String,
-        @RequestParam(name = "sourceLanguage") @Parameter(name = "Язык, на котором написан текст") sourceLang: String,
-        @RequestParam(name = "targetLanguage") @Parameter(name = "Язык, на который нужно перевести текст") targetLang: String,
+        @ModelAttribute @Valid translationRequestDto: TranslationRequestDto,
+        request: HttpServletRequest
     ): String {
-        return translationService.translate(text, sourceLang, targetLang)
+        return translationService.translate(translationRequestDto, request)
     }
 }
