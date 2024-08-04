@@ -1,4 +1,4 @@
-package ru.tinkoff.fintech.service.Impl
+package ru.tinkoff.fintech.service.impl
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
