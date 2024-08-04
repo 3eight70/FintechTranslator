@@ -16,6 +16,7 @@ import ru.tinkoff.fintech.dao.repository.TranslationRequestRepository
 import ru.tinkoff.fintech.dto.translation.TranslationRequestDto
 import ru.tinkoff.fintech.dto.translation.TranslationResponseDto
 import ru.tinkoff.fintech.service.TranslationService
+import java.net.SocketException
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicReference
 
@@ -58,7 +59,12 @@ class TranslationServiceImpl(
                     )
 
                     response.body?.get("translatedText") as String?
-                } catch (ex: HttpClientErrorException) {
+                }
+                catch (ex: SocketException){
+                    errorAtomic.set("http 503 Удаленный сервис временно недоступен")
+                    ""
+                }
+                catch (ex: HttpClientErrorException) {
                     val errorMessage = ex.responseBodyAsString
                     val errorDetails = try {
                         val errorMap = objectMapper.readValue<Map<String, String>>(errorMessage)
@@ -67,10 +73,10 @@ class TranslationServiceImpl(
                         "Ошибка во время парсинга json'а: ${e.message}"
                     }
                     errorAtomic.set("http ${ex.statusCode.value()} $errorDetails")
-                    "Ошибка обработки"
+                    ""
                 } catch (ex: Exception) {
                     errorAtomic.set("http 500 ${ex.message}")
-                    "Ошибка обработки"
+                    ""
                 }
             }
         }
